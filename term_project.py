@@ -14,6 +14,8 @@ class stats():
     def __init__(self):
         """Loads the data set into a hash table"""
         self.hash_table = {}
+        self.variables = ["Overall Rank", "Happiness Score", "GDP Per Capita", "Social Support", 
+                          "Healthy Life Expectancy", "Freedom to Make Life Choices", "Generosity", "Perceptions of Corruption"]
         with open("2019.csv", "r") as data:
             for line in csv.reader(data):
                 self.hash_table[line[1]] = [int(line[0])] + list(map(float, line[2:]))
