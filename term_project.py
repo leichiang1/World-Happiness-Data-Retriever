@@ -33,10 +33,10 @@ class stats():
     def search(self):
         pass
 
-    def median(self):
+    def get_median(self):
         pass
 
-    def std_dev(self):
+    def get_std_dev(self):
         pass
 
     def merge_sort(self):
