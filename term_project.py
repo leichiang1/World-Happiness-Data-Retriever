@@ -9,6 +9,7 @@
 #  Date Created: April 15th, 2024
 #  Date Last Modified: April 15th, 2024
 import csv
+import pandas as pd
 
 class stats():
     def __init__(self):
@@ -25,10 +26,16 @@ class stats():
         pass
 
     def get_mean(self, category):
-        pass
+        vals = [list_of_values[index] for list_of_values in self.hash_table.values()]
+        return sum(vals) / len(self.hash_table)
 
     def display_all(self):
-        pass
+        pd.options.display.max_rows = 1000
+        pd.set_option('expand_frame_repr', False)
+        file = "2019.csv"
+        df = pd.read_csv(file)
+        pd.options.display.max_columns = len(df.columns)
+        return df
 
     def search(self):
         pass
