@@ -111,8 +111,14 @@ class stats():
         print()
         self.main_menu()
 
-    def search(self):
-        pass
+    def search(self, country):
+        n = 0
+        print()
+        print(f"Data for {country}\n")
+        for i in self.hash_table[country]:
+            print(f"{self.variables[n]}: {i}")
+            n = n + 1
+        return self.hash_table[country]
 
     def get_median(self):
         pass
