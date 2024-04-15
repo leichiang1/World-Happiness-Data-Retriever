@@ -12,15 +12,37 @@ import csv
 
 class stats():
     def __init__(self):
-        hash_table = {}
+        """Loads the data set into a hash table"""
+        self.hash_table = {}
         with open("2019.csv", "r") as data:
             for line in csv.reader(data):
-                hash_table[line[1]] = [int(line[0])] + list(map(float, line[2:]))
-        print(hash_table["Finland"])
+                self.hash_table[line[1]] = [int(line[0])] + list(map(float, line[2:]))
+
+    def main_menu(self):
+        """Displays the main menu and controls the overall program based on user input"""
+        pass
+
+    def display_all(self):
+        pass
+
+    def search(self):
+        pass
+
+    def median(self):
+        pass
+
+    def std_dev(self):
+        pass
+
+    def merge_sort(self):
+        pass
+
+class min_heap():
+    pass
 
 
-
-
+class max_heap():
+    pass
 
 if __name__ == "__main__":
     s = stats()
