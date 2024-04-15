@@ -117,8 +117,10 @@ class stats():
     def get_median(self):
         pass
 
-    def get_std_dev(self):
-        pass
+    def get_std_dev(self, index):
+        vals = [list_of_values[index] for list_of_values in self.hash_table.values()]
+        mean = self.get_mean(index)
+        return math.sqrt(sum([mean - x for x in vals])/len(self.hash_table))
 
     def get_top_k(self):
         pass
