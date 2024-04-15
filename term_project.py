@@ -24,6 +24,9 @@ class stats():
         """Displays the main menu and controls the overall program based on user input"""
         pass
 
+    def get_mean(self, category):
+        pass
+
     def display_all(self):
         pass
 
