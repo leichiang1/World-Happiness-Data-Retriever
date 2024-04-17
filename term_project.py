@@ -9,6 +9,7 @@
 #  Date Created: April 15th, 2024
 #  Date Last Modified: April 15th, 2024
 import csv
+import math
 import pandas as pd
 
 class stats():
