@@ -134,11 +134,31 @@ class stats():
     def get_bottom_k(self):
         pass
 
-    def merge_sort(self):
-        pass
+   def merge_sort(self, arr, p, r):
+        """Performs Merge Sort where arr is the array, p is the left index and r is the right"""
+        if p < r:
+            q = math.floor((p + r) / 2) 
+            self.merge_sort(arr, p , q)
+            self.merge_sort(arr, q + 1, r)
+            self.merge(arr, p, q, r)
 
-    def merge(self):
-        pass
+
+    def merge(self, arr, p, q, r):
+        left = arr[p : q + 1]
+        right = arr[q + 1 : r + 1]
+        # adding sentinel values
+        left.append(float("inf"))
+        right.append(float("inf"))
+
+
+        i, j = 0, 0
+        for k in range(p, r + 1):
+            if left[i] <= right[j]:
+                arr[k] = left[i]
+                i += 1
+            else:
+                arr[k] = right[j]
+                j += 1
 
 class min_heap():
     pass
