@@ -126,7 +126,7 @@ class stats():
     def get_std_dev(self, index):
         vals = [list_of_values[index] for list_of_values in self.hash_table.values()]
         mean = self.get_mean(index)
-        return math.sqrt(sum([mean - x for x in vals])/len(self.hash_table))
+        return round(math.sqrt(sum([(mean - x)**2 for x in vals]) / len(self.hash_table)), 3)
 
     def get_top_k(self):
         pass
