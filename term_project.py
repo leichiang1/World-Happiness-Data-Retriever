@@ -1,4 +1,4 @@
-#  File: josephus.py
+#  File: term_project.py
 #  Description: Software project that allows users to explore the World Happiness Index dataset
 #  Student Name: Lucas Chiang
 #  Student UT EID: lmc4866
@@ -61,7 +61,7 @@ class stats():
                 print("Type in the Country You Want to Look Up Data For")
                 print("################################################")
                 while(True):
-                    user_input = input()
+                    user_input = input().title()
                     if user_input not in self.hash_table:
                         print("Country not found try again")
                         continue
@@ -117,7 +117,7 @@ class stats():
                     if user_input == "M":
                         self.main_menu()
                         return
-                    print(self.get_median(int(user_input) + 1))
+                    print("Median Value for Category:", self.get_median(int(user_input) + 1))
                     self.main_menu()
                     return
             
@@ -274,7 +274,7 @@ class stats():
         print()
         return self.hash_table[country]
 
-    def get_median(self):
+    def get_median(self, index):
         vals = [list_of_values[index] for list_of_values in self.hash_table.values()]
         self.merge_sort(vals, 0, len(vals)-1)
         if len(vals) % 2 == 1:
