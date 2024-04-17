@@ -101,8 +101,27 @@ class stats():
         pd.options.display.max_columns = len(df.columns)
         return df
     
-    def display_cat_info(self):
-        pass
+        def display_cat_info(self):
+        print("Context of the Dataset: The happiness scores and rankings use data from the Gallup World Poll.\n"
+              "The scores are based on answers to the main life evaluation question asked in the poll.\nThis question, "
+              "known as the Cantril ladder, asks respondents to think of a ladder with the best possible\nlife for "
+              "them being a 10 and the worst possible life being a 0 and to rate their own current lives\non that scale"
+              ". The columns following the happiness score estimate the extent to which each of six\nfactors, economic "
+              "production, social support, life expectancy, freedom, absence of corruption, and generosity\ncontribute"
+              " to making life evaluations higher in each country than they are in Dystopia.\n")
+        print("Happiness Score: The overall score on a scale of 0 to 10.")
+        print("GDP Per Capita: the extent to which GDP per capita contributes in "
+              "evaluating the happiness in each country")
+        print("Social Support: the extent to which social support contributes in "
+              "evaluating the happiness in each country")
+        print("Healthy Life Expectancy: the extent to which healthy life expectancy contributed in "
+              "evaluating the happiness in each country")
+        print("Freedom to Make Life Choices: the extent to which freedom to make life choices contributed in "
+              "evaluating the happiness in each country")
+        print("Generosity: the extent to which generosity contributed in "
+              "evaluating the happiness in each country")
+        print("Perceptions of Corruption: the extent to which perceptions of corruption contributed in "
+              "evaluating the happiness in each country")
 
     def get_mean(self, index):
         vals = [list_of_values[index] for list_of_values in self.hash_table.values()]
@@ -121,7 +140,12 @@ class stats():
         return self.hash_table[country]
 
     def get_median(self):
-        pass
+        vals = [list_of_values[index] for list_of_values in self.hash_table.values()]
+        self.merge_sort(vals, 0, len(vals)-1)
+        if len(vals) % 2 == 1:
+            return vals[int(len(vals)/2 - 1)]
+        else:
+            return (vals[int(len(vals)/2 - 1)] + vals[int(len(vals)/2)]) / 2
 
     def get_std_dev(self, index):
         vals = [list_of_values[index] for list_of_values in self.hash_table.values()]
