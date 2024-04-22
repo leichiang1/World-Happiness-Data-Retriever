@@ -11,32 +11,34 @@
 import math
 import csv
 import pandas as pd
-
+from heaps import min_heap, max_heap
 
 class stats():
     def __init__(self):
         """Loads the data set into a hash table"""
 
         self.hash_table = {}
-        self.variables = ["Overall Rank", "Happiness Score", "GDP Per Capita", "Social Support",
-                          "Healthy Life Expectancy", "Freedom to Make Life Choices", "Generosity",
-                          "Perceptions of Corruption"]
+        self.variables = ["Overall Rank", "Happiness Score", "GDP Per Capita", "Social Support", 
+                          "Healthy Life Expectancy", "Freedom to Make Life Choices", "Generosity", "Perceptions of Corruption"]
         with open("2019.csv", "r") as data:
             csvreader = csv.reader(data)
             next(csvreader)
             for line in csvreader:
                 self.hash_table[line[1]] = [int(line[0])] + list(map(float, line[2:]))
-        self.main_menu()
+
+    def get_hash_table(self):
+        """Displays the hash table"""
+        return self.hash_table
 
     def main_menu(self):
-        """Displays the main menu and controls the overall program based on user input"""
+        """Starts the main menu and controls the overall program based on user input"""
 
         valid_choices = ["0", "1", "2", "3", "4", "5", "6", "7", "Q"]
 
         print("#########################################################")
         print("Welcome to World Happiness Data Explorer Project")
         print("#########################################################")
-        print("Options: (Type in the Corresponding Number to Choose an Option")
+        print("Options: (Type in the Corresponding Number to Choose an Option)")
         print("0: Display All Data")
         print("1. Search For a Country")
         print("2. Get Mean for a Category")
@@ -48,10 +50,13 @@ class stats():
         print("Q. QUIT")
         print("#########################################################")
 
-        while (True):
+        while(True):
             user_input = input()
+
             if user_input not in valid_choices:
+                print("###########################")
                 print("Invalid Choice!, Try Again!")
+                print("###########################")
                 continue
 
             if user_input == "0":
@@ -63,17 +68,20 @@ class stats():
                 print("################################################")
                 print("Type in the Country You Want to Look Up Data For")
                 print("################################################")
-                while (True):
+                while(True):
                     user_input = input().title()
                     if user_input not in self.hash_table:
-                        print("Country not found try again")
+                        print("###########################")
+                        print("Country not found! Try again!")
+                        print("###########################")
+                        print()
                         continue
                     else:
                         self.search(user_input)
                         break
                 self.main_menu()
                 return
-
+            
             if user_input == "2":
                 mean_choices = ["0", "1", "2", "3", "4", "5", "6", "7", "M"]
                 print("#########################################################")
@@ -88,7 +96,7 @@ class stats():
                 print("M. Main Menu")
                 print("#########################################################")
                 user_input = input()
-                while (True):
+                while(True):
                     if user_input not in mean_choices:
                         continue
                     if user_input == "M":
@@ -98,7 +106,7 @@ class stats():
                     print()
                     self.main_menu()
                     return
-
+            
             if user_input == "3":
                 median_choices = ["0", "1", "2", "3", "4", "5", "6", "7", "M"]
                 print("#########################################################")
@@ -113,9 +121,12 @@ class stats():
                 print("M. Main Menu")
                 print("#########################################################")
                 user_input = input()
-                while (True):
+                while(True):
                     if user_input not in median_choices:
+                        print("###########################")
                         print("Invalid Choice!, Try Again!")
+                        print("###########################")
+                        print()
                         continue
                     if user_input == "M":
                         self.main_menu()
@@ -123,7 +134,7 @@ class stats():
                     print("Median Value for Category:", self.get_median(int(user_input) + 1))
                     self.main_menu()
                     return
-
+            
             if user_input == "4":
                 stdev_choices = ["0", "1", "2", "3", "4", "5", "6", "7", "M"]
                 print("#########################################################")
@@ -138,17 +149,17 @@ class stats():
                 print("M. Main Menu")
                 print("#########################################################")
                 user_input = input()
-                while (True):
+                while(True):
                     if user_input not in stdev_choices:
                         print("Invalid Choice!, Try Again!")
                         continue
                     if user_input == "M":
                         self.main_menu()
                         return
-                    print(self.get_std_dev(int(user_input) + 1))
+                    print("Standard Deviation for the Category is", self.get_std_dev(int(user_input) + 1))
                     self.main_menu()
                     return
-
+            
             if user_input == "5":
                 topk_choices = ["0", "1", "2", "3", "4", "5", "6", "7", "M"]
                 print("#########################################################")
@@ -162,8 +173,8 @@ class stats():
                 print("6. Perceptions of Corruption")
                 print("M. Main Menu")
                 print("#########################################################")
-                input_one = input()
-                while (True):
+                while(True):
+                    input_one = input()
                     if input_one not in topk_choices:
                         print("Invalid Choice! Try Again!")
                         continue
@@ -173,17 +184,29 @@ class stats():
                     else:
                         break
 
-                while (True):
+                while(True):
                     print("#########################################################")
                     print("Enter A Number Between 1-156")
                     print("#########################################################")
-                    input_two = int(input().strip())
-                    if input_two < 1 or input_two > 156:
-                        print("Invalid Number")
+                    try:
+                        input_two = int(input().strip())
+                    except ValueError:
+                        print("###################################")
+                        print("Not a Number! Try Again!")
+                        print("###################################")
+                        print()
                         continue
+
+                    if input_two < 1 or input_two > 156:
+                        print("####################################")
+                        print("Number Not Within Bounds. Try Again!")
+                        print("####################################")
+                        continue
+                    print()
                     print(f"The Top {input_two} Countries For The {self.variables[int(input_one) + 1]} Category Are:")
                     print()
                     self.get_top_k(input_two, int(input_one) + 1)
+                    print()
                     self.main_menu()
                     return
 
@@ -200,8 +223,8 @@ class stats():
                 print("6. Perceptions of Corruption")
                 print("M. Main Menu")
                 print("#########################################################")
-                input_one = input()
-                while (True):
+                while(True):
+                    input_one = input()
                     if input_one not in bottomk_choices:
                         print("Invalid Choice! Try Again!")
                         continue
@@ -211,26 +234,37 @@ class stats():
                     else:
                         break
 
-                while (True):
+                while(True):
                     print("#########################################################")
                     print("Enter A Number Between 1-156")
                     print("#########################################################")
-                    input_two = int(input().strip())
-                    if input_two < 1 or input_two > 156:
-                        print("Invalid Number")
+                    try:
+                        input_two = int(input().strip())
+                    except ValueError:
+                        print("###################################")
+                        print("Not a Number! Try Again!")
+                        print("###################################")
+                        print()
                         continue
-                    print(
-                        f"The Bottom {input_two} Countries For The {self.variables[int(input_one) + 1]} Category Are:")
+                    if input_two < 1 or input_two > 156:
+                        print("####################################")
+                        print("Number Not Within Bounds. Try Again!")
+                        print("####################################")
+                        print()
+                        continue
+                    print()
+                    print(f"The Bottom {input_two} Countries For The {self.variables[int(input_one) + 1]} Category Are:")
                     print()
                     self.get_bottom_k(input_two, int(input_one) + 1)
+                    print()
                     self.main_menu()
                     return
-
+            
             if user_input == "7":
                 self.display_cat_info()
                 self.main_menu()
                 return
-
+            
             if user_input == "Q":
                 return
 
@@ -241,8 +275,9 @@ class stats():
         df = pd.read_csv(file)
         pd.options.display.max_columns = len(df.columns)
         return df
-
+    
     def display_cat_info(self):
+        print()
         print("Context of the Dataset: The happiness scores and rankings use data from the Gallup World Poll.\n"
               "The scores are based on answers to the main life evaluation question asked in the poll.\nThis question, "
               "known as the Cantril ladder, asks respondents to think of a ladder with the best possible\nlife for "
@@ -263,12 +298,15 @@ class stats():
               "evaluating the happiness in each country")
         print("Perceptions of Corruption: the extent to which perceptions of corruption contributed in "
               "evaluating the happiness in each country")
+        print()
 
     def get_mean(self, index):
+        """Returns the mean of a category"""
         vals = [list_of_values[index] for list_of_values in self.hash_table.values()]
-        return sum(vals) / len(self.hash_table)
+        return round(sum(vals) / len(self.hash_table), 3)
 
     def search(self, country):
+        """Returns data for the country requested"""
         n = 0
         print()
         print(f"Data for {country}\n")
@@ -279,48 +317,61 @@ class stats():
         return self.hash_table[country]
 
     def get_median(self, index):
+        """Returns the median of a category"""
         vals = [list_of_values[index] for list_of_values in self.hash_table.values()]
-        self.merge_sort(vals, 0, len(vals) - 1)
+        self.merge_sort(vals, 0, len(vals)-1)
         if len(vals) % 2 == 1:
-            return vals[int(len(vals) / 2 - 1)]
+            return vals[int(len(vals)/2 - 1)]
         else:
-            return (vals[int(len(vals) / 2 - 1)] + vals[int(len(vals) / 2)]) / 2
+            return round((vals[int(len(vals)/2 - 1)] + vals[int(len(vals)/2)]) / 2, 3)
 
     def get_std_dev(self, index):
+        """Returns the standard deviation of a category"""
         vals = [list_of_values[index] for list_of_values in self.hash_table.values()]
         mean = self.get_mean(index)
-        return round(math.sqrt(sum([(mean - x) ** 2 for x in vals]) / len(self.hash_table)), 3)
+        return round(math.sqrt(sum([(mean - x)**2 for x in vals]) / len(self.hash_table)), 3)
 
     def get_top_k(self, amount, index):
+        """Returns the Top K countries of the indicated category"""
+        check_list = []
         lst = self.create_pairs(index)
         heap = max_heap()
         heap.build_max_heap(lst)
         for _ in range(amount):
             res = heap.extract_max()
-            print(res[0], ":", res[1])
+            check_list.append(res)
+            print(f"{res[0]}: {res[1]}")
+        return check_list
 
     def get_bottom_k(self, amount, index):
+        """Returns the Bottom K countries of the indicated category"""
+        check_list = []
         lst = self.create_pairs(index)
         heap = min_heap()
         heap.build_min_heap(lst)
         for _ in range(amount):
             res = heap.extract_min()
-            print(res[0], ":", res[1])
+            check_list.append(res)
+            print(f"{res[0]}: {res[1]}")
+        return check_list
 
     def merge_sort(self, arr, p, r):
         """Performs Merge Sort where arr is the array, p is the left index and r is the right"""
         if p < r:
-            q = math.floor((p + r) / 2)
-            self.merge_sort(arr, p, q)
+            q = math.floor((p + r) / 2) 
+            self.merge_sort(arr, p , q)
             self.merge_sort(arr, q + 1, r)
             self.merge(arr, p, q, r)
 
+
     def merge(self, arr, p, q, r):
-        left = arr[p: q + 1]
-        right = arr[q + 1: r + 1]
+        """Merge procedure for merge sort"""
+        left = arr[p : q + 1]
+        right = arr[q + 1 : r + 1]
         # adding sentinel values
         left.append(float("inf"))
         right.append(float("inf"))
+
 
         i, j = 0, 0
         for k in range(p, r + 1):
@@ -332,115 +383,14 @@ class stats():
                 j += 1
 
     def create_pairs(self, index):
+        """Creates list to use for heaps"""
         pair_list = []
         for i in self.hash_table:
             pair_list.append((i, self.hash_table[i][index]))
         return pair_list
 
-
-class min_heap:
-    def __init__(self):
-        self.heap_list = []
-
-    @property
-    def size(self):
-        return len(self.heap_list) - 1
-
-    def parent(self, index):
-        return index // 2
-
-    def l_child(self, index):
-        return 2 * index
-
-    def r_child(self, index):
-        return (2 * index) + 1
-
-    def swap(self, pos1, pos2):
-        self.heap_list[pos1], self.heap_list[pos2] = self.heap_list[pos2], self.heap_list[pos1]
-
-    def min_heapify(self, i):
-        l = self.l_child(i)
-        r = self.r_child(i)
-
-        if l <= self.size and self.heap_list[l][1] < self.heap_list[i][1]:
-            smallest = l
-        else:
-            smallest = i
-
-        if r <= self.size and self.heap_list[r][1] < self.heap_list[smallest][1]:
-            smallest = r
-
-        if smallest != i:
-            self.swap(i, smallest)
-            self.min_heapify(smallest)
-
-    def build_min_heap(self, lst):
-        lst.insert(0, ("placeholder", float("-inf")))
-
-        self.heap_list = lst
-
-        for i in range(len(lst) // 2, 0, -1):
-            self.min_heapify(i)
-
-    def extract_min(self):
-        minimum = self.heap_list.pop(1)
-        if (self.size > 1):
-            self.heap_list.insert(1, self.heap_list.pop())
-            self.min_heapify(1)
-        return minimum
-
-
-class max_heap:
-    def __init__(self):
-        self.heap_list = []
-
-    @property
-    def size(self):
-        return len(self.heap_list) - 1
-
-    def parent(self, index):
-        return index // 2
-
-    def l_child(self, index):
-        return 2 * index
-
-    def r_child(self, index):
-        return (2 * index) + 1
-
-    def swap(self, pos1, pos2):
-        self.heap_list[pos1], self.heap_list[pos2] = self.heap_list[pos2], self.heap_list[pos1]
-
-    def max_heapify(self, i):
-        l = self.l_child(i)
-        r = self.r_child(i)
-
-        if l <= self.size and self.heap_list[l][1] > self.heap_list[i][1]:
-            greatest = l
-        else:
-            greatest = i
-
-        if r <= self.size and self.heap_list[r][1] > self.heap_list[greatest][1]:
-            greatest = r
-
-        if greatest != i:
-            self.swap(i, greatest)
-            self.max_heapify(greatest)
-
-    def build_max_heap(self, lst):
-        lst.insert(0, ("placeholder", float("inf")))
-
-        self.heap_list = lst
-
-        for i in range(len(lst) // 2, 0, -1):
-            self.max_heapify(i)
-
-    def extract_max(self):
-        maximum = self.heap_list.pop(1)
-        if self.size > 1:
-            self.heap_list.insert(1, self.heap_list.pop())
-            self.max_heapify(1)
-        return maximum
-
+    
 
 if __name__ == "__main__":
     s = stats()
+    s.main_menu()
