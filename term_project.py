@@ -8,13 +8,15 @@
 #  Unique Number: 50775
 #  Date Created: April 15th, 2024
 #  Date Last Modified: April 15th, 2024
+"""final project"""
 import math
 import csv
 import pandas as pd
 from heaps import min_heap, max_heap
 
 
-class stats():
+class Stats():
+    """The class the has all the methods"""
     def __init__(self):
         """Loads the data set into a hash table"""
 
@@ -52,7 +54,7 @@ class stats():
         print("Q. QUIT")
         print("#########################################################")
 
-        while (True):
+        while True:
             user_input = input()
 
             if user_input not in valid_choices:
@@ -70,7 +72,7 @@ class stats():
                 print("################################################")
                 print("Type in the Country You Want to Look Up Data For")
                 print("################################################")
-                while (True):
+                while True:
                     user_input = input().title()
                     if user_input not in self.hash_table:
                         print("###########################")
@@ -78,9 +80,8 @@ class stats():
                         print("###########################")
                         print()
                         continue
-                    else:
-                        self.search(user_input)
-                        break
+                    self.search(user_input)
+                    break
                 self.main_menu()
                 return
 
@@ -98,7 +99,7 @@ class stats():
                 print("M. Main Menu")
                 print("#########################################################")
                 user_input = input()
-                while (True):
+                while True:
                     if user_input not in mean_choices:
                         continue
                     if user_input == "M":
@@ -123,7 +124,7 @@ class stats():
                 print("M. Main Menu")
                 print("#########################################################")
                 user_input = input()
-                while (True):
+                while True:
                     if user_input not in median_choices:
                         print("###########################")
                         print("Invalid Choice!, Try Again!")
@@ -151,14 +152,15 @@ class stats():
                 print("M. Main Menu")
                 print("#########################################################")
                 user_input = input()
-                while (True):
+                while True:
                     if user_input not in stdev_choices:
                         print("Invalid Choice!, Try Again!")
                         continue
                     if user_input == "M":
                         self.main_menu()
                         return
-                    print("Standard Deviation for the Category is", self.get_std_dev(int(user_input) + 1))
+                    print("Standard Deviation for the Category "
+                          "is", self.get_std_dev(int(user_input) + 1))
                     self.main_menu()
                     return
 
@@ -174,8 +176,9 @@ class stats():
                 print("5. Generosity")
                 print("6. Perceptions of Corruption")
                 print("M. Main Menu")
-                print("#########################################################")
-                while (True):
+                print("##################################"
+                      "#######################")
+                while True:
                     input_one = input()
                     if input_one not in topk_choices:
                         print("Invalid Choice! Try Again!")
@@ -183,10 +186,9 @@ class stats():
                     if user_input == "M":
                         self.main_menu()
                         return
-                    else:
-                        break
+                    break
 
-                while (True):
+                while True:
                     print("#########################################################")
                     print("Enter A Number Between 1-156")
                     print("#########################################################")
@@ -205,7 +207,8 @@ class stats():
                         print("####################################")
                         continue
                     print()
-                    print(f"The Top {input_two} Countries For The {self.variables[int(input_one) + 1]} Category Are:")
+                    print(f"The Top {input_two} Countries For The "
+                          f"{self.variables[int(input_one) + 1]} Category Are:")
                     print()
                     self.get_top_k(input_two, int(input_one) + 1)
                     print()
@@ -225,7 +228,7 @@ class stats():
                 print("6. Perceptions of Corruption")
                 print("M. Main Menu")
                 print("#########################################################")
-                while (True):
+                while True:
                     input_one = input()
                     if input_one not in bottomk_choices:
                         print("Invalid Choice! Try Again!")
@@ -233,10 +236,9 @@ class stats():
                     if user_input == "M":
                         self.main_menu()
                         return
-                    else:
-                        break
+                    break
 
-                while (True):
+                while True:
                     print("#########################################################")
                     print("Enter A Number Between 1-156")
                     print("#########################################################")
@@ -256,7 +258,8 @@ class stats():
                         continue
                     print()
                     print(
-                        f"The Bottom {input_two} Countries For The {self.variables[int(input_one) + 1]} Category Are:")
+                        f"The Bottom {input_two} Countries For The "
+                        f"{self.variables[int(input_one) + 1]} Category Are:")
                     print()
                     self.get_bottom_k(input_two, int(input_one) + 1)
                     print()
@@ -272,6 +275,7 @@ class stats():
                 return
 
     def display_all(self):
+        """displays the dataset"""
         pd.options.display.max_rows = 1000
         pd.set_option('expand_frame_repr', False)
         file = "2019.csv"
@@ -280,13 +284,20 @@ class stats():
         return df
 
     def display_cat_info(self):
+        """displays info about each category"""
         print()
-        print("Context of the Dataset: The happiness scores and rankings use data from the Gallup World Poll.\n"
-              "The scores are based on answers to the main life evaluation question asked in the poll.\nThis question, "
-              "known as the Cantril ladder, asks respondents to think of a ladder with the best possible\nlife for "
-              "them being a 10 and the worst possible life being a 0 and to rate their own current lives\non that scale"
-              ". The columns following the happiness score estimate the extent to which each of six\nfactors, economic "
-              "production, social support, life expectancy, freedom, absence of corruption, and generosity\ncontribute"
+        print("Context of the Dataset: The happiness scores and "
+              "rankings use data from the Gallup World Poll.\n"
+              "The scores are based on answers to the main life evaluation"
+              " question asked in the poll.\nThis question, "
+              "known as the Cantril ladder, asks respondents to think "
+              "of a ladder with the best possible\nlife for "
+              "them being a 10 and the worst possible life being a 0 "
+              "and to rate their own current lives\non that scale"
+              ". The columns following the happiness score estimate"
+              " the extent to which each of six\nfactors, economic "
+              "production, social support, life expectancy, "
+              "freedom, absence of corruption, and generosity\ncontribute"
               " to making life evaluations higher in each country than they are in Dystopia.\n")
         print("Happiness Score: The overall score on a scale of 0 to 10.")
         print("GDP Per Capita: the extent to which GDP per capita contributes in "
@@ -295,11 +306,13 @@ class stats():
               "evaluating the happiness in each country")
         print("Healthy Life Expectancy: the extent to which healthy life expectancy contributed in "
               "evaluating the happiness in each country")
-        print("Freedom to Make Life Choices: the extent to which freedom to make life choices contributed in "
+        print("Freedom to Make Life Choices: the extent to "
+              "which freedom to make life choices contributed in "
               "evaluating the happiness in each country")
         print("Generosity: the extent to which generosity contributed in "
               "evaluating the happiness in each country")
-        print("Perceptions of Corruption: the extent to which perceptions of corruption contributed in "
+        print("Perceptions of Corruption: the extent "
+              "to which perceptions of corruption contributed in "
               "evaluating the happiness in each country")
         print()
 
@@ -325,8 +338,7 @@ class stats():
         self.merge_sort(vals, 0, len(vals) - 1)
         if len(vals) % 2 == 1:
             return vals[int(len(vals) / 2 - 1)]
-        else:
-            return round((vals[int(len(vals) / 2 - 1)] + vals[int(len(vals) / 2)]) / 2, 3)
+        return round((vals[int(len(vals) / 2 - 1)] + vals[int(len(vals) / 2)]) / 2, 3)
 
     def get_std_dev(self, index):
         """Returns the standard deviation of a category"""
@@ -392,5 +404,5 @@ class stats():
 
 
 if __name__ == "__main__":
-    s = stats()
+    s = Stats()
     s.main_menu()
